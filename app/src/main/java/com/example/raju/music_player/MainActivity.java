@@ -1,6 +1,11 @@
 package com.example.raju.music_player;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -9,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,5 +72,37 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        CheckPermission();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case 111:
+                if(grantResults[0] ==  PackageManager.PERMISSION_GRANTED){
+                    loadSongs();
+                }
+                else {
+                    Toast.makeText(this,"Permission Denied", Toast.LENGTH_SHORT).show();
+                    CheckPermission();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    private void CheckPermission(){
+        if(Build.VERSION.SDK_INT >= 23) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 111);
+                return;
+            }
+        }
+        else {
+            loadSongs();
+        }
+
     }
 }
