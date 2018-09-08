@@ -6,19 +6,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class SongAdapter extends RecyclerView.Adapter<SongAdapter.Holder> {
+public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
 
-    ArrayList<SongData> songData;
+    private ArrayList<SongData> songData;
     Context context;
     OnItemClickListener onItemClickListener;
 
-    SongAdapter(Context context, ArrayList<SongData> songData){
+    public SongAdapter(Context context, ArrayList<SongData> songData){
         this.context = context;
         this.songData = songData;
     }
@@ -33,16 +32,16 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.Holder> {
 
     @NonNull
     @Override
-    public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SongHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.song_row, parent, false);
-        return new Holder(view);
+        return new SongHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final Holder holder, final int position) {
+    public void onBindViewHolder(@NonNull final SongHolder holder, final int position) {
         final SongData ob = songData.get(position);
-        holder.song.setText(ob.sname);
-        holder.artist.setText(ob.artist);
+        holder.song.setText(ob.getSong());
+        holder.artist.setText(ob.getArtist());
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,10 +57,10 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.Holder> {
         return songData.size();
     }
 
-    public class Holder extends RecyclerView.ViewHolder {
+    public class SongHolder extends RecyclerView.ViewHolder {
         TextView song,artist;
         Button button;
-        public Holder(View itemView) {
+        public SongHolder(View itemView) {
             super(itemView);
             song = (TextView) itemView.findViewById(R.id.song);
             artist = (TextView) itemView.findViewById(R.id.artist);
