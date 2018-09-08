@@ -12,4 +12,16 @@ public class SongData {
         this.artist = artist;
         this.url = url;
     }
+
+    public String getSname() {
+        return sname;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public String getUrl() {
+        return url;
+    }
 }
